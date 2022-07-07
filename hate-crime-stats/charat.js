@@ -30,23 +30,15 @@ async function drawLineChart() {
         }) 
         const first = hateCrimeData.shift()
         const second = hateCrimeData.shift()
-        // const last = hateCrimeData.pop()
         return hateCrimeData
     }
+
     const dataset = await d3.csv("./data/BiasMotivatedCrimes.csv")
-    console.log(dataset)
     const countData = countPerDay(dataset);
 
-    console.log(countData)
-
     const yAccessor = d => d.count
-    // const parseDate = d3.timeParse("%Y-%m-%d")
-    // const xAccessor = d => parseDate(d.year)
     const parseDate = d3.timeParse("%Y")
     const xAccessor = d => parseDate(d.year)
-
-    console.log(yAccessor(countData[1]))
-    console.log(xAccessor(countData[1]))
 
 
     let dimensions = {
