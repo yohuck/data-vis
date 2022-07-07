@@ -3,7 +3,7 @@ import * as d3 from "d3";
 async function drawLineChart() {
     
     const countPerDay = (data) => {
-        const arr = [];
+        const hateCrimeData = [];
         let currentYear = 2490
         let count = 1;
         let tempObj = {
@@ -12,34 +12,22 @@ async function drawLineChart() {
         }
         data.forEach(object => {
             if (object.OCC_YEAR < currentYear){
-                console.log(tempObj)
-                arr.push(tempObj)
-                console.log(arr)
-                // tempObj.count = count
-                // tempObj.year = object.OCC_YEAR
-                // arr.push(tempObj)
+                tempObj.count = count;
+                tempObj.year = currentYear;
+                hateCrimeData.push({...tempObj})
                 count = 1;
                 currentYear = object.OCC_YEAR;
-                console.log(currentYear)
                 tempObj.count = count;
                 tempObj.year = currentYear
             } else if (object.OCC_YEAR == currentYear) {
                 count++;
-                tempObj.count = count;
-                tempObj.year = currentYear;
-                console.log(tempObj)
-                // console.log({count, currentYear})
-            } else console.log('hello')
+            } else console.log('Update the initial current year')
         }) 
-        return arr
-        // countPerDay(dataset)
+        const first = hateCrimeData.shift()
+        return hateCrimeData
     }
     const dataset = await d3.csv("./data/BiasMotivatedCrimes.csv")
-    console.log(dataset)
-    let newSet = dataset.sort((a,b) => a.OCC_YEAR > b.OCC_YEAR)
-    console.log(newSet)
-    console.log(countPerDay(newSet))
-    // console.log(countPerDay(dataset))
+    console.log(countPerDay(dataset))
 }
 
 drawLineChart();
