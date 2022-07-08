@@ -31288,34 +31288,28 @@ async function drawLineChart() {
       } else console.log('Update the initial current year');
     });
     const first = hateCrimeData.shift();
-    const second = hateCrimeData.shift(); // const last = hateCrimeData.pop()
-
+    const second = hateCrimeData.shift();
     return hateCrimeData;
   };
 
   const dataset = await d3.csv("./data/BiasMotivatedCrimes.csv");
-  console.log(dataset);
   const countData = countPerDay(dataset);
-  console.log(countData);
 
-  const yAccessor = d => d.count; // const parseDate = d3.timeParse("%Y-%m-%d")
-  // const xAccessor = d => parseDate(d.year)
-
+  const yAccessor = d => d.count;
 
   const parseDate = d3.timeParse("%Y");
 
   const xAccessor = d => parseDate(d.year);
 
-  console.log(yAccessor(countData[1]));
-  console.log(xAccessor(countData[1]));
+  const wrap = document.getElementById('wrapper');
   let dimensions = {
     width: window.innerWidth * 0.9,
-    height: 400,
+    height: window.innerHeight * 0.5,
     margins: {
       top: 15,
       right: 15,
-      bottom: 40,
-      left: 60
+      bottom: 30,
+      left: 30
     }
   };
   dimensions.boundedWidth = dimensions.width - dimensions.margins.left - dimensions.margins.right;
@@ -31325,11 +31319,14 @@ async function drawLineChart() {
   const yScale = d3.scaleLinear().domain(d3.extent(countData, yAccessor)).range([dimensions.boundedHeight, 0]);
   const xScale = d3.scaleTime().domain(d3.extent(countData, xAccessor)).range([0, dimensions.boundedWidth]);
   const lineGenerator = d3.line().x(d => xScale(xAccessor(d))).y(d => yScale(yAccessor(d)));
-  const line = bounds.append("path").attr("d", lineGenerator(countData)).attr("stroke", '#af9358').attr("stroke-width", 2).attr("fill", "none");
+  const line = bounds.append("path").attr("d", lineGenerator(countData)).attr("stroke", '#B74F6F').attr("stroke-width", 5).attr("fill", "none").attr("class", "path");
   const yAxisGenerator = d3.axisLeft().scale(yScale);
   const xAxisGenerator = d3.axisBottom().scale(xScale);
-  const yAxis = bounds.append("g").call(yAxisGenerator);
-  const xAxis = bounds.append("g").call(xAxisGenerator).style("transform", "translateY(".concat(dimensions.boundedHeight, "px)"));
+  const yAxis = bounds.append("g").call(yAxisGenerator).style("font-family", "monospace").attr("stroke-width", 2);
+  const xAxis = bounds.append("g").call(xAxisGenerator).style("transform", "translateY(".concat(dimensions.boundedHeight, "px)")).style("font-family", "monospace").attr("stroke-width", 2);
+  var path = document.querySelector('.path');
+  var length = path.getTotalLength();
+  console.log(length);
 }
 
 drawLineChart();
@@ -31371,7 +31368,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55780" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55567" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

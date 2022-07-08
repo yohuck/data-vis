@@ -39,16 +39,16 @@ async function drawLineChart() {
     const yAccessor = d => d.count
     const parseDate = d3.timeParse("%Y")
     const xAccessor = d => parseDate(d.year)
-
+    const wrap = document.getElementById('wrapper')
 
     let dimensions = {
         width: window.innerWidth * 0.9,
-        height: 400,
+        height: window.innerHeight * 0.5,
         margins: {
             top: 15,
             right: 15,
-            bottom: 40,
-            left: 60,
+            bottom: 30,
+            left: 30,
         }
     }
     dimensions.boundedWidth = dimensions.width
@@ -85,9 +85,10 @@ async function drawLineChart() {
                 .y(d => yScale(yAccessor(d)))
     const line = bounds.append("path")
                 .attr("d", lineGenerator(countData))
-                .attr("stroke", '#af9358')
-                .attr("stroke-width", 2)
+                .attr("stroke", '#B74F6F')
+                .attr("stroke-width", 5)
                 .attr("fill", "none")
+                .attr("class", "path")
 
     const yAxisGenerator = d3.axisLeft()
                 .scale(yScale)
@@ -95,9 +96,17 @@ async function drawLineChart() {
                 .scale(xScale)
     const yAxis = bounds.append("g")
                 .call(yAxisGenerator)
+                .style("font-family", "monospace")
+                .attr("stroke-width", 2)
     const xAxis = bounds.append("g")
                 .call(xAxisGenerator)
                 .style("transform", `translateY(${dimensions.boundedHeight}px)`)
+                .style("font-family", "monospace")
+                .attr("stroke-width", 2)
+
+                var path = document.querySelector('.path');
+var length = path.getTotalLength();
+console.log(length)
 }
 
 drawLineChart();

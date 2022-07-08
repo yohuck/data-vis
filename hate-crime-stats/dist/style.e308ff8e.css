@@ -1,0 +1,49 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: monospace;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+h1 {
+    /* margin: 0.5rem; */
+}
+
+p {
+    margin: 0.5rem;
+}
+
+
+#wrapper{
+    border: 1px solid black;
+    /* max-width: 1000px; */
+    display: flex;
+}
+
+svg{
+    /* border: 10px solid green; */
+    width: max-content ;
+}
+
+.path {
+    stroke-dasharray: 1351;
+    stroke-dashoffset: -1351;;
+    animation: dash 2s ease-in-out 1s forwards;
+  }
+  
+  @keyframes dash {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+/*# sourceMappingURL=/style.e308ff8e.css.map */
