@@ -31307,23 +31307,26 @@ async function drawLineChart() {
     height: window.innerHeight * 0.5,
     margins: {
       top: 15,
-      right: 15,
-      bottom: 30,
-      left: 30
+      right: 40,
+      bottom: 40,
+      left: 40
     }
   };
   dimensions.boundedWidth = dimensions.width - dimensions.margins.left - dimensions.margins.right;
   dimensions.boundedHeight = dimensions.height - dimensions.margins.top - dimensions.margins.bottom;
-  const wrapper = d3.select('#wrapper').append("svg").attr("width", dimensions.width).attr("height", dimensions.height);
+  const wrapper = d3.select('#wrapper').append("svg").attr("width", dimensions.width).attr("height", dimensions.height).attr("color", '#333745').style("background-color", '#C7EFCF');
   const bounds = wrapper.append('g').style('transform', "translate(".concat(dimensions.margins.left, "px, ").concat(dimensions.margins.top, "px)"));
-  const yScale = d3.scaleLinear().domain(d3.extent(countData, yAccessor)).range([dimensions.boundedHeight, 0]);
+  const yScale = d3.scaleLinear().domain(d3.extent([...countData, {
+    year: '2000',
+    count: '0'
+  }], yAccessor)).range([dimensions.boundedHeight, 0]);
   const xScale = d3.scaleTime().domain(d3.extent(countData, xAccessor)).range([0, dimensions.boundedWidth]);
   const lineGenerator = d3.line().x(d => xScale(xAccessor(d))).y(d => yScale(yAccessor(d)));
-  const line = bounds.append("path").attr("d", lineGenerator(countData)).attr("stroke", '#B74F6F').attr("stroke-width", 5).attr("fill", "none").attr("class", "path");
+  const line = bounds.append("path").attr("d", lineGenerator(countData)).attr("stroke", '#FE5F55').attr("stroke-width", 5).attr("fill", "none").attr("class", "path");
   const yAxisGenerator = d3.axisLeft().scale(yScale);
   const xAxisGenerator = d3.axisBottom().scale(xScale);
-  const yAxis = bounds.append("g").call(yAxisGenerator).style("font-family", "monospace").attr("stroke-width", 2);
-  const xAxis = bounds.append("g").call(xAxisGenerator).style("transform", "translateY(".concat(dimensions.boundedHeight, "px)")).style("font-family", "monospace").attr("stroke-width", 2);
+  const yAxis = bounds.append("g").call(yAxisGenerator).style("font-family", "monospace").style('font-size', '16px').attr("stroke-width", 2);
+  const xAxis = bounds.append("g").call(xAxisGenerator).style("transform", "translateY(".concat(dimensions.boundedHeight, "px)")).style("font-family", "monospace").style("font-size", "1rem").attr("stroke-width", 2);
   var path = document.querySelector('.path');
   var length = path.getTotalLength();
   console.log(length);
@@ -31368,7 +31371,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55567" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56648" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

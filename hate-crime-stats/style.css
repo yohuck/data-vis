@@ -12,16 +12,23 @@ body{
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    background-color: #EEF5DB ;
+    color: #333745;
 }
 
 h1 {
+    font-size: 2.5rem;
     /* margin: 0.5rem; */
 }
 
 p {
     margin: 0.5rem;
+    font-size: 1.5rem;
 }
 
+a{
+    color: #3083DC;
+}
 
 #wrapper{
     border: 1px solid black;
@@ -30,17 +37,24 @@ p {
 }
 
 svg{
-    /* border: 10px solid green; */
-    width: max-content ;
+    border: 2px solid black;
+    /* width: max-content ; */
 }
 
 .path {
     stroke-dasharray: 1351;
     stroke-dashoffset: -1351;;
-    animation: dash 2s ease-in-out 1s forwards;
+    animation: dash 5s infinite ease-out 1s forwards;
   }
   
   @keyframes dash {
+    0% {
+        stroke-dashoffset: -1351;
+    }
+
+    50% {
+        stroke-dashoffset: 0pt;
+    }
     to {
       stroke-dashoffset: 0;
     }

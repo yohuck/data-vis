@@ -46,9 +46,9 @@ async function drawLineChart() {
         height: window.innerHeight * 0.5,
         margins: {
             top: 15,
-            right: 15,
-            bottom: 30,
-            left: 30,
+            right: 40,
+            bottom: 40,
+            left: 40,
         }
     }
     dimensions.boundedWidth = dimensions.width
@@ -62,6 +62,9 @@ async function drawLineChart() {
         .append("svg")
             .attr("width", dimensions.width)
             .attr("height", dimensions.height)
+            .attr("color", '#333745')
+            .style("background-color", '#C7EFCF')
+            
 
     const bounds = wrapper
         .append('g')
@@ -70,10 +73,11 @@ async function drawLineChart() {
                 `translate(${
                     dimensions.margins.left
                 }px, ${dimensions.margins.top
-                }px)`);
+                }px)`)
+
             
     const yScale = d3.scaleLinear()
-                .domain(d3.extent(countData, yAccessor))
+                .domain(d3.extent([...countData, {year: '2000', count: '0'}], yAccessor))
                 .range([dimensions.boundedHeight, 0])
 
     const xScale = d3.scaleTime()
@@ -85,23 +89,27 @@ async function drawLineChart() {
                 .y(d => yScale(yAccessor(d)))
     const line = bounds.append("path")
                 .attr("d", lineGenerator(countData))
-                .attr("stroke", '#B74F6F')
+                .attr("stroke", '#FE5F55')
                 .attr("stroke-width", 5)
                 .attr("fill", "none")
                 .attr("class", "path")
 
     const yAxisGenerator = d3.axisLeft()
                 .scale(yScale)
+
+                
     const xAxisGenerator = d3.axisBottom()
                 .scale(xScale)
     const yAxis = bounds.append("g")
                 .call(yAxisGenerator)
                 .style("font-family", "monospace")
+                .style('font-size', '16px')
                 .attr("stroke-width", 2)
     const xAxis = bounds.append("g")
                 .call(xAxisGenerator)
                 .style("transform", `translateY(${dimensions.boundedHeight}px)`)
                 .style("font-family", "monospace")
+                .style("font-size", "1rem")
                 .attr("stroke-width", 2)
 
                 var path = document.querySelector('.path');
