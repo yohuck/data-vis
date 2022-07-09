@@ -6,7 +6,11 @@ async function drawScatter(){
     data = data.filter(function(item){
         return item.price < 100
     })
-    data = data.slice(0,3000)
+
+    data = data.filter(function(elem){
+        return !elem.price == 0
+    })
+    data = data.slice(0,800)
     
     // Accessor functions
     const xAccessor = d => d.price
@@ -38,7 +42,7 @@ async function drawScatter(){
         .append('svg')
         .attr('width', dimensions.width)
         .attr('height', dimensions.height)
-        .style('border', '5px solid black')
+        .style('border', '2px solid black')
 
     const bounds = wrapper.append('g')
         .style("transform", `translate(
@@ -66,12 +70,40 @@ async function drawScatter(){
                 .attr('fill', 'purple')    }
         let count = 0
         for (let i = 0; i < data.length; i++){
-            
             setTimeout(() => {
                 drawDots(data.slice(0, count+1))
             count++
-            }, 100)
+            }, 1300)
         }
+
+        const xAxisGenerator = d3.axisBottom().scale(xScale)
+
+        const xAxis = bounds.append("g")
+        .call(xAxisGenerator)
+        .style('transform', `translateY(${dimensions.boundedHeight}px)`)
+
+        const xAxisLabel = xAxis.append('text')
+        .attr("x", dimensions.boundedWidth /2)
+        .attr("y", dimensions.margin.bottom -10)
+        .text('Price')
+        .attr('fill', 'black')
+        .style('font-size', '2em')
+    
+    const yAxisGenerator = d3.axisLeft().scale(yScale)
+    // .ticks(5)
+    
+    const yAxis = bounds.append("g").call(yAxisGenerator)
+    .attr('stroke', '2px')
+
+    const yAxisLabel = yAxis
+  .append('text')
+  .attr("x", -dimensions.boundedHeight / 2)
+  .attr('y', -dimensions.margin.left + 30)
+  .style('transform', 'rotate(-90deg)')
+  .style('fill', 'black')
+  .style('font-size', '2em')
+  .text('Score')
+  .style('text-anchor','middle')
 
 }
 

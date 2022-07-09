@@ -31260,7 +31260,10 @@ async function drawScatter() {
   data = data.filter(function (item) {
     return item.price < 100;
   });
-  data = data.slice(0, 3000); // Accessor functions
+  data = data.filter(function (elem) {
+    return !elem.price == 0;
+  });
+  data = data.slice(0, 800); // Accessor functions
 
   const xAccessor = d => d.price;
 
@@ -31282,7 +31285,7 @@ async function drawScatter() {
   };
   dimensions.boundedWidth = dimensions.width - dimensions.margin.left - dimensions.margin.right;
   dimensions.boundedHeight = dimensions.height - dimensions.margin.top - dimensions.margin.bottom;
-  const wrapper = d3.select('#wrapper').append('svg').attr('width', dimensions.width).attr('height', dimensions.height).style('border', '5px solid black');
+  const wrapper = d3.select('#wrapper').append('svg').attr('width', dimensions.width).attr('height', dimensions.height).style('border', '2px solid black');
   const bounds = wrapper.append('g').style("transform", "translate(\n            ".concat(dimensions.margin.left, "px, \n            ").concat(dimensions.margin.top, "px)"));
   const yScale = d3.scaleLinear().domain(d3.extent(data, d => yAccessor(d))).range([dimensions.boundedHeight, 0]).nice();
   const xScale = d3.scaleLinear().domain(d3.extent(data, d => xAccessor(d))).range([0, dimensions.boundedWidth]).nice();
@@ -31298,8 +31301,16 @@ async function drawScatter() {
     setTimeout(() => {
       drawDots(data.slice(0, count + 1));
       count++;
-    }, 100);
+    }, 1300);
   }
+
+  const xAxisGenerator = d3.axisBottom().scale(xScale);
+  const xAxis = bounds.append("g").call(xAxisGenerator).style('transform', "translateY(".concat(dimensions.boundedHeight, "px)"));
+  const xAxisLabel = xAxis.append('text').attr("x", dimensions.boundedWidth / 2).attr("y", dimensions.margin.bottom - 10).text('Price').attr('fill', 'black').style('font-size', '2em');
+  const yAxisGenerator = d3.axisLeft().scale(yScale); // .ticks(5)
+
+  const yAxis = bounds.append("g").call(yAxisGenerator).attr('stroke', '2px');
+  const yAxisLabel = yAxis.append('text').attr("x", -dimensions.boundedHeight / 2).attr('y', -dimensions.margin.left + 30).style('transform', 'rotate(-90deg)').style('fill', 'black').style('font-size', '2em').text('Score').style('text-anchor', 'middle');
 }
 
 drawScatter();
@@ -31331,7 +31342,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52546" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55695" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
