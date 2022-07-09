@@ -31257,6 +31257,16 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 async function drawScatter() {
   //gets JSON data
   let data = await d3.json('./data/wine-data-set.json');
+  let pinotNoirData = data.filter(function (item) {
+    return item.variety == 'Pinot Noir';
+  });
+  let cabernet = data.filter(function (item) {
+    return item.variety == 'Cabernet Sauvignon';
+  });
+  let chard = data.filter(function (item) {
+    return item.variety == 'Chardonnay';
+  });
+  console.log(pinotNoirData);
   data = data.filter(function (item) {
     return item.price < 100;
   });
@@ -31290,19 +31300,20 @@ async function drawScatter() {
   const yScale = d3.scaleLinear().domain(d3.extent(data, d => yAccessor(d))).range([dimensions.boundedHeight, 0]).nice();
   const xScale = d3.scaleLinear().domain(d3.extent(data, d => xAccessor(d))).range([0, dimensions.boundedWidth]).nice();
 
-  const drawDots = data => {
+  const drawDots = (data, color) => {
     const dots = bounds.selectAll("circle").data(data);
-    dots.join("circle").attr("cx", d => xScale(d.price)).attr("cy", d => yScale(d.points)).attr('r', 5).attr('fill', 'purple');
+    dots.join("circle").attr("cx", d => xScale(d.price)).attr("cy", d => yScale(d.points)).attr('r', 5).attr('fill', color);
   };
 
-  let count = 0;
-
-  for (let i = 0; i < data.length; i++) {
-    setTimeout(() => {
-      drawDots(data.slice(0, count + 1));
-      count++;
-    }, 1300);
-  }
+  drawDots(pinotNoirData, 'purple');
+  setTimeout(() => drawDots(cabernet, 'pink'), 5000);
+  setTimeout(() => drawDots(chard, 'green'), 10000); // let count = 0
+  // for (let i = 0; i < data.length; i++){
+  //     setTimeout(() => {
+  //         drawDots(data.slice(0, count+1))
+  //     count++
+  //     }, 1300)
+  // }
 
   const xAxisGenerator = d3.axisBottom().scale(xScale);
   const xAxis = bounds.append("g").call(xAxisGenerator).style('transform', "translateY(".concat(dimensions.boundedHeight, "px)"));
@@ -31342,7 +31353,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55695" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52340" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

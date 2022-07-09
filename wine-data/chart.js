@@ -3,6 +3,22 @@ import * as d3 from "d3";
 async function drawScatter(){
     //gets JSON data
     let data = await d3.json('./data/wine-data-set.json');
+
+    let pinotNoirData = data.filter(function(item)  {
+        return item.variety == 'Pinot Noir'
+    })
+
+    let cabernet = data.filter(function(item)  {
+        return item.variety == 'Cabernet Sauvignon'
+    })
+
+    let chard = data.filter(function(item)  {
+        return item.variety == 'Chardonnay'
+    })
+
+    console.log(pinotNoirData)
+
+
     data = data.filter(function(item){
         return item.price < 100
     })
@@ -11,6 +27,8 @@ async function drawScatter(){
         return !elem.price == 0
     })
     data = data.slice(0,800)
+
+
     
     // Accessor functions
     const xAccessor = d => d.price
@@ -59,7 +77,7 @@ async function drawScatter(){
         .range([0, dimensions.boundedWidth])
         .nice()
 
-    const drawDots = data => {
+    const drawDots = (data, color) => {
         const dots = bounds.selectAll("circle")
             .data(data)
 
@@ -67,14 +85,21 @@ async function drawScatter(){
                 .attr("cx", d => xScale(d.price))
                 .attr("cy", d => yScale(d.points))
                 .attr('r', 5)
-                .attr('fill', 'purple')    }
-        let count = 0
-        for (let i = 0; i < data.length; i++){
-            setTimeout(() => {
-                drawDots(data.slice(0, count+1))
-            count++
-            }, 1300)
-        }
+                .attr('fill', color)    }
+        
+        drawDots(pinotNoirData, 'purple')
+
+        setTimeout( () => drawDots(cabernet, 'pink'), 5000);
+        setTimeout( () =>  drawDots(chard, 'green'), 10000 )
+       
+
+        // let count = 0
+        // for (let i = 0; i < data.length; i++){
+        //     setTimeout(() => {
+        //         drawDots(data.slice(0, count+1))
+        //     count++
+        //     }, 1300)
+        // }
 
         const xAxisGenerator = d3.axisBottom().scale(xScale)
 
