@@ -26,7 +26,7 @@ async function drawScatter(){
     data = data.filter(function(elem){
         return !elem.price == 0
     })
-    data = data.slice(0,800)
+    // data = data.slice(0,800)
 
 
     
@@ -77,20 +77,75 @@ async function drawScatter(){
         .range([0, dimensions.boundedWidth])
         .nice()
 
+        
     const drawDots = (data, color) => {
-        const dots = bounds.selectAll("circle")
+        const dots = bounds.selectAll("circle")    
             .data(data)
 
-            dots.join("circle")
+            dots.enter()
+            .append('circle')
                 .attr("cx", d => xScale(d.price))
                 .attr("cy", d => yScale(d.points))
-                .attr('r', 5)
+                .attr('r', 8)
                 .attr('fill', color)    }
         
-        drawDots(pinotNoirData, 'purple')
+        // drawDots(pinotNoirData.slice(0,200), 'rgba(248, 8, 120, 0.341)')
 
-        setTimeout( () => drawDots(cabernet, 'pink'), 5000);
-        setTimeout( () =>  drawDots(chard, 'green'), 10000 )
+
+
+        // setTimeout(() => {
+
+        //     drawDots(pinotNoirData, 'rgba(248, 8, 120, 0.341)')
+        // }, 3000)
+
+        // setTimeout(() => {
+
+        //     drawDots(pinotNoirData.slice(401,600), 'rgba(248, 8, 120, 0.341)')
+        // }, 2000)
+
+        // setTimeout(() => {
+
+        //     drawDots(pinotNoirData.slice(0,400), 'rgba(248, 8, 120, 0.341)')
+        // }, 1000)
+
+        // setTimeout(() => {
+
+        //     drawDots(pinotNoirData.slice(0,600), 'rgba(248, 8, 120, 0.341)')
+        // }, 2000)
+        // setTimeout(() => {
+
+        //     drawDots(pinotNoirData.slice(0,800), 'rgba(248, 8, 120, 0.341)')
+        // }, 3000)
+        // setTimeout(() => {
+
+        //     drawDots(pinotNoirData, 'rgba(248, 8, 120, 0.341)')
+        // }, 4000)
+
+ for (let i = 0; i < data.length; i++){
+    setTimeout(() => {
+        drawDots(data.slice(0,i), 'rgba(95, 0, 124, 0.05)')
+        console.log(i)
+    }, i/2)
+ }
+
+//  for (let i = 0; i < cabernet.length; i++){
+//     setTimeout(() => {
+//         drawDots(cabernet.slice(0,i), 'rgba(95, 0, 124, 0.24)')
+//         console.log('hello' + i)
+//     }, i*10)
+//  }
+
+
+
+        // setTimeout(() => {
+        //     drawDots(chard.slice(0,500), 'black')
+        //     console.log('hello?')
+        // }, 1000)
+
+
+        // drawDots(cabernet, 'hsla(266, 33%, 41%, 0.5)')
+
+        // setTimeout( () => drawDots(cabernet, 'hsla(266, 33%, 41%, 0.2)'), 1000);
        
 
         // let count = 0
